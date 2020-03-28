@@ -161,18 +161,26 @@ def computeRadianceMap_f(images, log_exposure_times, response_curve, weighting_f
     numpy.ndarray(dtype=np.float64)
         The image radiance map (in log space)
     """
+    #rc_dict = dict( (k, v) for (k, v) in enumerate(response_curve))
+
     zmid = (255-0)/2
-    imgarr = np.asarray(images)
+    imgarr = np.asarray(images) #(P photos, Length, Width)
     img_shape = images[0].shape
     img_rad_map = np.zeros(img_shape, dtype=np.float64)
 
     num_images = len(images)
-    #W = imgarr.apply(weighting_function)
     W = zmid - np.absolute(imgarr-zmid)
-    #GmdT = imgarr.apply(response_curve) - log_exposure_times[:, np.newaxis, np.newaxis]*np.ones(imgarray.shape)
+    otime = time.time()
+    """
+    G = np.zeros(imgarr.shape)
+    for i, pix in np.ndenumerate(imgarr):
+        G[i] = rc_dict[pix]
+    """
     G = np.dot(expand_integer_grid(imgarr, 256),response_curve)
-    GmdT =  G - log_exposure_times[:, np.newaxis, np.newaxis]*np.ones(imgarr.shape)
-    img_rad_map = np.sum((W * GmdT), axis=0)/np.sum(W, axis=0)
+    print('         dictG calculating time:', time.time()-otime)
+    
+    lndT = log_exposure_times[:, np.newaxis, np.newaxis] * np.ones(imgarr.shape)
+    img_rad_map[:, :] = np.sum((W * (G - lndT)), axis=0) / (np.sum(W, axis=0) + 1e-8)
 
     return img_rad_map
 def computeRadianceMap(images, log_exposure_times, response_curve, weighting_function):
@@ -215,7 +223,7 @@ def computeRadianceMap(images, log_exposure_times, response_curve, weighting_fun
     return img_rad_map
 
 
-def globalToneMapping(image, gamma):
+def globalToneMapping(image, Lwhite, alpha):
     """Global tone mapping using gamma correction
     ----------
     images : <numpy.ndarray>
@@ -227,7 +235,19 @@ def globalToneMapping(image, gamma):
     numpy.ndarray
         The resulting image after gamma correction
     """
-    image_corrected = cv2.pow(image/255., 1.0/gamma)
+    #image_corrected = cv2.pow(image/255., 1.0/gamma)
+    delta = 1e-9
+    #Lwhite = gamma
+    N = image.shape[0]*image.shape[1]*3
+    print('image shape:', image.shape)
+    Lw = np.exp(image)
+    #Lw = image
+    Lb = np.exp((1/N)*np.sum(np.log(delta+Lw)))
+    print('L bar:', Lb)
+    Lm = (alpha/Lb)*Lw # linear 
+    #Ld = Lm/(1+Lm) # non-linear
+    Ldf = Lm * (1 + (Lm / (Lwhite**2))) / (1 + Lm)
+    image_corrected = Ldf
     return image_corrected
 
 
@@ -253,7 +273,7 @@ def intensityAdjustment(image, template):
     return output
 
 
-def computeHDR(images, log_exposure_times, smoothing_lambda=100., gamma=0.6):
+def computeHDR(images, log_exposure_times, smoothing_lambda=100., Lwhite=30, alpha=0.8):
     """Computational pipeline to produce the HDR images
     ----------
     images : list<numpy.ndarray>
@@ -294,32 +314,36 @@ def computeHDR(images, log_exposure_times, smoothing_lambda=100., gamma=0.6):
         otime = time.time()
         img_rad_map = computeRadianceMap_f(layer_stack, log_exposure_times, response_curve, linearWeight)
         print('    running time:', time.time()-otime)
-        
+        """
         # Build radiance map
         print('    building irradiance map...')
         otime = time.time()
         img_rad_map_o = computeRadianceMap(layer_stack, log_exposure_times, response_curve, linearWeight)
         print('    running time:', time.time()-otime)
-
+        
         print('residual:', np.sum(img_rad_map-img_rad_map_o))
+        """
         # Normalize hdr layer to (0, 255)
-        out = np.zeros(img_rad_map.shape)
-        cv2.normalize(src=img_rad_map, dst=out, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX)
-        hdr_image[..., channel]  = out
+        #out = np.zeros(img_rad_map.shape)
+        #cv2.normalize(src=img_rad_map, dst=out, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX)
+        #hdr_image[..., channel]  = out
+        hdr_image[..., channel]  = img_rad_map
 
-
+    return hdr_image
+    """
     # Global tone mapping
-    image_mapped = globalToneMapping(hdr_image, gamma)
-
+    image_mapped = globalToneMapping(hdr_image, Lwhite = Lwhite, alpha=alpha)
+    
     # Adjust image intensity based on the middle image from image stack
     template = images[len(images)//2]
     image_tuned = intensityAdjustment(image_mapped, template)
-
+    
     # Output image
-    output = np.zeros(image_tuned.shape)
-    cv2.normalize(image_tuned, output, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX)
+    #output = np.zeros(image_tuned.shape)
+    #cv2.normalize(image_tuned, output, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX)
+    output = image_mapped*255
     return output.astype(np.uint8)
-
+    """
 def say_hi():
     print('hi')
     return 0
