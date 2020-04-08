@@ -205,7 +205,8 @@ def globalToneMapping(image, Lwhite, alpha):
     """
     delta = 1e-9
     N = image.shape[0]*image.shape[1]*3
-    Lw = np.exp(image)
+    #Lw = np.exp(image)
+    Lw = image
     Lb = np.exp((1/N)*np.sum(np.log(delta+Lw)))
     Lm = (alpha/Lb)*Lw # linear 
     Ldf = Lm * (1 + (Lm / (Lwhite**2))) / (1 + Lm)
@@ -259,4 +260,4 @@ def computeHDR(images, log_exposure_times, smoothing_lambda=100.):
         print('    running time:', time.time()-otime)
         hdr_image[..., channel]  = img_rad_map
 
-    return hdr_image
+    return np.exp(hdr_image)
