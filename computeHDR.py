@@ -38,10 +38,12 @@ def main():
                     
     #read the meta data
     df = pd.read_csv(META, sep='\s+')
-    df['exposetime'] = 1/df['1/shutter_speed']
+    if 'exposetime' not in df.columns:
+        df['exposetime'] = 1/df['1/shutter_speed']
+  
     
     # read the images
-    imgs = [cv2.imread(os.path.join(IMGDIR,fn)) for fn in df.Filename]
+    imgs = [cv2.resize(cv2.imread(os.path.join(IMGDIR,fn)),(960, 540)) for fn in df.Filename]
 
     # image alignment
     image_alignment = align.ImageAlignment()
@@ -57,7 +59,7 @@ def main():
 
 
     # compute high dynamic range image
-    hdrimg = hdr.computeHDR(imgs, np.log(df.exposetime))
+    hdrimg = hdr.computeHDR(imgs, np.log(df.exposetime).astype(np.float32))
                     
     # save high dynamic range image
     cv2.imwrite(HDR_PATH, hdrimg)
