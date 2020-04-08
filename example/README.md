@@ -1,6 +1,8 @@
 
 # High Dynamic Range Imaging
 This is a python project from recovering the response curve to reconstruct the irradiance map(HDR) in the real scene.
+## Author
+r08944022 蔡仲閔 / [vtsai01@cmlab.csie.ntu.edu.tw](vtsai01@cmlab.csie.ntu.edu.tw)
 ## Summary for TA
 - this project is based on [high-dynamic-range-image](https://github.com/vivianhylee/high-dynamic-range-image)
 - modified most of the function
