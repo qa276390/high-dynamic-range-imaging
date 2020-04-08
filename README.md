@@ -52,7 +52,7 @@ Put your images in a single folder and prepare your meta data file. The meta fil
 ### Start 
 here is an example to run the code.
 ```shell
-python3 computeHDR.py --img-dir [IMG_DIR] --meta_path [META_PATH_IN_CSV]
+python3 computeHDR.py --img-dir ./example/park3/ --meta_path ./example/park3.csv
 ```
 to see more parameters
 ```shell
