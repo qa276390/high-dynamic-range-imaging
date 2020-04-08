@@ -46,8 +46,18 @@ In this part, we implemented a naive global tone mapping algorithm(shown below) 
 and now we can have the result.
 
 ## Usages
-
-
+There are python file and ipython notebook for you to choose.
+### Prepare Images and Meta Data
+Put your images in a single folder and prepare your meta data file. The meta file should contains filename and exposure time separated with spaces(see `./example/park3.csv`). There are meta file creator in `createMeta.ipynb` if your images contains [EXIF](https://zh.wikipedia.org/wiki/EXIF) data.
+### Start 
+here is an example to run the code.
+```shell
+python3 computeHDR.py --img-dir [IMG_DIR] --meta_path [META_PATH_IN_CSV]
+```
+to see more parameters
+```shell
+python3 computeHDR.py --help
+```
 
 ## Results
 ### Original image
