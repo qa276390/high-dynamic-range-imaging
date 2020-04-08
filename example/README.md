@@ -4,6 +4,10 @@ This is a python project from recovering the response curve to reconstruct the i
 ## Author
 r08944022 蔡仲閔 / [vtsai01@cmlab.csie.ntu.edu.tw](vtsai01@cmlab.csie.ntu.edu.tw)
 ## Summary for TA
+- to run the code.
+```shell
+python3 computeHDR.py 
+```
 - this project is based on [high-dynamic-range-image](https://github.com/vivianhylee/high-dynamic-range-image)
 - modified most of the function
 - rewrite the `computeRadianceMap()` function in `./hdrtool/hdr.py` and reduce running time down to **3%**.
