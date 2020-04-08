@@ -33,11 +33,14 @@ The function of response curve is a general term for the many steps shown above.
 
 ### Reconstruct the Irradiance Map
 And now we can reconstruct the irradiance map by the formula below.
+
 <img src="https://latex.codecogs.com/svg.latex?ln(E_i)&space;=&space;\frac{\sum_{P}^{j=1}w(Z_i_j)(g(Z_i_j)-ln(\Delta&space;t_j)))&space;}{\sum_{P}^{j=1}w(Z_i_j)}" title="ln(E_i) = \frac{\sum_{P}^{j=1}w(Z_i_j)(g(Z_i_j)-ln(\Delta t_j))) }{\sum_{P}^{j=1}w(Z_i_j)}" />
+
 After this step, we are able to have the `output.hdr` file.
 
 ### Global Tone Mapping
 In this part, we implemented a naive global tone mapping algorithm(shown below) to get a image which can match our visual experience.
+
 <a href="https://www.codecogs.com/eqnedit.php?latex=L_d(x,&space;y)&space;=&space;\frac{L_m(x,y)(1&plus;\frac{L_m(x,y)}{L^2_w(x,y)})}{1&plus;L_m(x,y)}" target="_blank"><img src="https://latex.codecogs.com/svg.latex?L_d(x,&space;y)&space;=&space;\frac{L_m(x,y)(1&plus;\frac{L_m(x,y)}{L^2_w(x,y)})}{1&plus;L_m(x,y)}" title="L_d(x, y) = \frac{L_m(x,y)(1+\frac{L_m(x,y)}{L^2_w(x,y)})}{1+L_m(x,y)}" /></a>
 
 and now we can have the result.
@@ -50,34 +53,18 @@ and now we can have the result.
 ### Original image
 <table>
 <tr>
-<th><img src="https://github.com/vivianhylee/high-dynamic-range-image/raw/master/example/sample-00.png" /><br>Exposure 1/160 sec</th>
-<th><img src="https://github.com/vivianhylee/high-dynamic-range-image/raw/master/example/sample-01.png" /><br>Exposure 1/125 sec</th>
-<th><img src="https://github.com/vivianhylee/high-dynamic-range-image/raw/master/example/sample-02.png" /><br>Exposure 1/80 sec</th>
-<th><img src="https://github.com/vivianhylee/high-dynamic-range-image/raw/master/example/sample-03.png" /><br>Exposure 1/60 sec</th>
-<th><img src="https://github.com/vivianhylee/high-dynamic-range-image/raw/master/example/sample-04.png" /><br>Exposure 1/40 sec</th>
-<th><img src="https://github.com/vivianhylee/high-dynamic-range-image/raw/master/example/sample-05.png" /><br>Exposure 1/15 sec</th>
+<th><img src="https://github.com/qa276390/high-dynamic-range-imaging/blob/master/example/park3/IMG_7189.JPG" /><br>Exposure 1/4 sec</th>
+<th><img src="https://github.com/qa276390/high-dynamic-range-imaging/blob/master/example/park3/IMG_7190.JPG" /><br>Exposure 1 sec</th>
+<th><img src="https://github.com/qa276390/high-dynamic-range-imaging/blob/master/example/park3/IMG_7191.JPG" /><br>Exposure 4 sec</th>
+<th><img src="https://github.com/qa276390/high-dynamic-range-imaging/blob/master/example/park3/IMG_7192.JPG" /><br>Exposure 15 sec</th>
 </tr>
 </table>
 
 ### HDR image
-<img src="https://github.com/vivianhylee/high-dynamic-range-image/raw/master/example/output1.png" width="500"/>
+<img src="https://github.com/qa276390/high-dynamic-range-imaging/blob/master/example/park3-output.jpg" width="500"/>
 
-## Result 2
-### Original image
-<table>
-<tr>
-<th><img src="https://github.com/vivianhylee/high-dynamic-range-image/raw/master/example/sample2-00.jpg" /><br>Exposure 1/400 sec</th>
-<th><img src="https://github.com/vivianhylee/high-dynamic-range-image/raw/master/example/sample2-01.jpg" /><br>Exposure 1/250 sec</th>
-<th><img src="https://github.com/vivianhylee/high-dynamic-range-image/raw/master/example/sample2-02.jpg" /><br>Exposure 1/100 sec</th>
-<th><img src="https://github.com/vivianhylee/high-dynamic-range-image/raw/master/example/sample2-03.jpg" /><br>Exposure 1/40 sec</th>
-<th><img src="https://github.com/vivianhylee/high-dynamic-range-image/raw/master/example/sample2-04.jpg" /><br>Exposure 1/25 sec</th>
-<th><img src="https://github.com/vivianhylee/high-dynamic-range-image/raw/master/example/sample2-05.jpg" /><br>Exposure 1/8 sec</th>
-<th><img src="https://github.com/vivianhylee/high-dynamic-range-image/raw/master/example/sample2-06.jpg" /><br>Exposure 1/3 sec</th>
-</tr>
-</table>
 
-### HDR image
-<img src="https://github.com/vivianhylee/high-dynamic-range-image/raw/master/example/output2.png" width="500"/>
+
 
 ## Acknowledgements
 - [Digital Visual Effects](https://www.csie.ntu.edu.tw/~cyy/courses/vfx/20spring/overview/)
