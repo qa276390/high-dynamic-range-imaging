@@ -1,16 +1,20 @@
-# high-dynamic-range-image
-Creating HDR image from image stack with multiple exposures
+# high-dynamic-range-imaging
+HDR images have larger dynamic ranges than the ordinary images we see. From recovering the response curve, we could reconstruct the irradiance map in the real scene.
 
-## Introduction
-The goal of this project is to recover high dynamic range radiance maps from photographs to crease an image that captures details from the entire dynaimic range. This project has two parts, radiane map construction and tone mapping. For the first part, we implement algorithm from [Debevec, Malik](http://www.pauldebevec.com/Research/HDR/debevec-siggraph97.pdf) to recover high dynamic range radiance map. Then we apply tone mapping and intensity adjustmemt to to convert the radiance map into displayable image.
 
-## Algorithm Overview
-### High Dynamic Range Radiance Map Construction
-1. Film Response Curve Recovery
->Film response curve is a function maps from observed pixel values on an image to the log of exposure values: g(Zij) = ln(Ei) + ln(tj). To recover function g, we implement equation from Debevec
-<img src="https://github.com/vivianhylee/high-dynamic-range-image/raw/master/example/e1.png" height="150"/>
+## Project description
+There are several steps(shown below) between the scene radiance and the image we see. Starting from taking few photographs in different exposures, we use  [Paul Debevec's method](http://www.pauldebevec.com/Research/HDR/debevec-siggraph97.pdf) to [recover the response curve](#recovering-the-response-curve) by these photographs. After we got the response curve, we are now able to [reconstuct the irradiance map](#reconstruct-the-irradiance-map) also known as HDR images. Also, we developed a [global tone mapping](#global-tone-mapping) algorithm to see the combination of these photographs.
 
->>g is the unknown response function
+<img src="https://github.com/qa276390/high-dynamic-range-image/blob/master/example/steps.png" height="150"/>
+
+
+## Algorithms in each steps
+### Recovering the Response Curve
+
+Film response curve is a function maps from observed pixel values on an image to the log of exposure values: g(Zij) = ln(Ei) + ln(tj). To recover function g, we implement equation from Debevec
+<img src="https://github.com/qa276390/high-dynamic-range-image/blob/master/example/e1.png" height="150"/>
+
+<img src="https://latex.codecogs.com/svg.latex?\Large&space;g" title="g" /> is the unknown response function
 
 >>w is a linear weighting function. g will be less smooth and will fit the data more poorly near extremes (Z=0 or Z=255). Debevec introduces a weighting function to enphasize the smoothness fitting terms toward the middle of the curve.
 
@@ -35,7 +39,9 @@ The goal of this project is to recover high dynamic range radiance maps from pho
 
 >In order to reducing noise in the recovered radiance value, we use all the available exposrues for a particular pixel to computer its radiance based on equation 6 in Debevec. 
 
-### Tone Mapping
+### Reconstruct the Irradiance Map
+
+### Global Tone Mapping
 >Global tone mapping: In this project, we use gamma correction as global tone mapping. The output image is proportional to the input raised to the power of the inverse of gamma and has pixel value range from 0 to 255.
 
 ### Color Adjustment
