@@ -16,9 +16,10 @@ Film response curve is a function maps from observed pixel values on an image to
 
 <img src="https://latex.codecogs.com/svg.latex?\Large&space;g" title="g" /> is the unknown response function
 
->>w is a linear weighting function. g will be less smooth and will fit the data more poorly near extremes (Z=0 or Z=255). Debevec introduces a weighting function to enphasize the smoothness fitting terms toward the middle of the curve.
+<img src="https://latex.codecogs.com/svg.latex?\Large&space;w" title="w" />
+is a linear weighting function. g will be less smooth and will fit the data more poorly near extremes (Z=0 or Z=255). Debevec introduces a weighting function to enphasize the smoothness fitting terms toward the middle of the curve.
 
->>t is the exposure time
+<img src="https://latex.codecogs.com/svg.latex?\Large&space;t_j" title="t_j" /> is the exposure time
 
 >>E is the unknown radiance
 
