@@ -1,25 +1,27 @@
 # high-dynamic-range-imaging
-HDR images have larger dynamic ranges than the ordinary images we see. From recovering the response curve, we could reconstruct the irradiance map in the real scene.
+This is a python project from recovering the response curve to reconstruct the irradiance map(HDR) in the real scene.
 
+- [Project Description](#project-description)
+- [Algorithm](#algorithm)
+- [Usage](#usage)
+- [Results](#resuls)
 
-## Project description
+## Project Description
 There are several steps(shown below) between the scene radiance and the image we see. Starting from taking few photographs in different exposures, we use  [Paul Debevec's method](http://www.pauldebevec.com/Research/HDR/debevec-siggraph97.pdf) to [recover the response curve](#recovering-the-response-curve) by these photographs. After we got the response curve, we are now able to [reconstuct the irradiance map](#reconstruct-the-irradiance-map) also known as HDR images. Also, we developed a [global tone mapping](#global-tone-mapping) algorithm to see the combination of these photographs.
 
 <img src="https://github.com/qa276390/high-dynamic-range-image/blob/master/example/steps.png" height="150"/>
 
 
-## Algorithms in each steps
+## Algorithms 
 ### Recovering the Response Curve
 
 The function of response curve is a general term for the many steps shown above. To recover from pixel values record on image to radiance map we need a function g which is:  <img src="https://latex.codecogs.com/svg.latex?g(Z_i_j)&space;=&space;ln(E_i)&space;&plus;&space;ln(t_j)" title="g(Z_i_j) = ln(E_i) + ln(t_j)" /></a>.
 
 <img  align="center" src="https://github.com/qa276390/high-dynamic-range-image/blob/master/example/eq1.png" height="50"/>
 
-
 - <img src="https://latex.codecogs.com/svg.latex?\Large&space;g" title="g" /> is the unknown response function
 
-- <img src="https://latex.codecogs.com/svg.latex?\Large&space;w" title="w" />
-is a linear weighting function. g will be less smooth and will fit the data more poorly near extremes (Z=0 or Z=255). Debevec introduces a weighting function to enphasize the smoothness fitting terms toward the middle of the curve.
+- <img src="https://latex.codecogs.com/svg.latex?\Large&space;w" title="w" /> is a linear weighting function. g will be less smooth and will fit the data more poorly near extremes (Z=0 or Z=255). Debevec introduces a weighting function to enphasize the smoothness fitting terms toward the middle of the curve.
 
 - <img src="https://latex.codecogs.com/svg.latex?\Large&space;t_j" title="t_j" /> is the exposure time in index <img src="https://latex.codecogs.com/svg.latex?\Large&space;j" title="j" />
 
@@ -28,15 +30,6 @@ is a linear weighting function. g will be less smooth and will fit the data more
 - <img src="https://latex.codecogs.com/svg.latex?\Large&space;Z_i_j" title="Z_i_j" />: is the observed value in pixel <img src="https://latex.codecogs.com/svg.latex?\Large&space;i" title="i" /> and <img src="https://latex.codecogs.com/svg.latex?\Large&space;j" title="j" /> exposure time
 
 - <img src="https://latex.codecogs.com/svg.latex?\Large&space;i" title="i" /> is the pixel location index, <img src="https://latex.codecogs.com/svg.latex?\Large&space;j" title="j" /> is the exposure index and **P** is the total number of exposures.
-
->This response curve can be used to determine radiance values in any images acquired by the imaging processing associated with g, not just the images used to recover the response curve.
-
-2. High Dynamic Range Radiance Map Construction
->Once the response curve g is recovered, we can construct a radiance map based on equation from Debevec
-
-<img src="https://github.com/vivianhylee/high-dynamic-range-image/raw/master/example/e2.png" height="80"/>
-
->In order to reducing noise in the recovered radiance value, we use all the available exposrues for a particular pixel to computer its radiance based on equation 6 in Debevec. 
 
 ### Reconstruct the Irradiance Map
 And now we can reconstruct the irradiance map by the formula below.
@@ -48,7 +41,11 @@ In this part, we implemented a naive global tone mapping algorithm(shown below) 
 <a href="https://www.codecogs.com/eqnedit.php?latex=L_d(x,&space;y)&space;=&space;\frac{L_m(x,y)(1&plus;\frac{L_m(x,y)}{L^2_w(x,y)})}{1&plus;L_m(x,y)}" target="_blank"><img src="https://latex.codecogs.com/svg.latex?L_d(x,&space;y)&space;=&space;\frac{L_m(x,y)(1&plus;\frac{L_m(x,y)}{L^2_w(x,y)})}{1&plus;L_m(x,y)}" title="L_d(x, y) = \frac{L_m(x,y)(1+\frac{L_m(x,y)}{L^2_w(x,y)})}{1+L_m(x,y)}" />
 and now we can have the result.
 
-## Result 1
+## Usages
+
+
+
+## Results
 ### Original image
 <table>
 <tr>
