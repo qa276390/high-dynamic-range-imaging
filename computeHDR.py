@@ -14,9 +14,9 @@ import argparse
 
 # Settings
 parser = argparse.ArgumentParser(description='Compute HDR')
-parser.add_argument('--img-dir',default='./example',  type=str,
+parser.add_argument('--img-dir',default='./example/park3',  type=str,
                     help='path to image folder')
-parser.add_argument('--meta-path',default = './example/sample.csv', type=str,
+parser.add_argument('--meta-path',default = './example/park3.csv', type=str,
                     help='path to meta data')
 parser.add_argument('--save-hdr-to',default = 'output.hdr', type=str,
                     help='path for .hdr file')                   
@@ -52,8 +52,8 @@ def main():
             images[i] = image_alignment.fit(images[i], images[i-1], d)
         print()
         return images
-
-    imgs = solve_alignment(imgs)
+    ## optional
+    #imgs = solve_alignment(imgs)
 
 
     # compute high dynamic range image
