@@ -11,25 +11,23 @@ There are several steps(shown below) between the scene radiance and the image we
 ## Algorithms in each steps
 ### Recovering the Response Curve
 
-Film response curve is a function maps from observed pixel values on an image to the log of exposure values: g(Zij) = ln(Ei) + ln(tj). To recover function g, we implement equation from Debevec
-<img src="https://github.com/qa276390/high-dynamic-range-image/blob/master/example/e1.png" height="150"/>
+The function of response curve is a general term for the many steps shown above. To recover from pixel values record on image to radiance map we need a function g which is:  <img src="https://latex.codecogs.com/svg.latex?g(Z_i_j)&space;=&space;ln(E_i)&space;&plus;&space;ln(t_j)" title="g(Z_i_j) = ln(E_i) + ln(t_j)" /></a>.
 
-<img src="https://latex.codecogs.com/svg.latex?\Large&space;g" title="g" /> is the unknown response function
+<img  align="center" src="https://github.com/qa276390/high-dynamic-range-image/blob/master/example/eq1.png" height="50"/>
 
-<img src="https://latex.codecogs.com/svg.latex?\Large&space;w" title="w" />
+
+- <img src="https://latex.codecogs.com/svg.latex?\Large&space;g" title="g" /> is the unknown response function
+
+- <img src="https://latex.codecogs.com/svg.latex?\Large&space;w" title="w" />
 is a linear weighting function. g will be less smooth and will fit the data more poorly near extremes (Z=0 or Z=255). Debevec introduces a weighting function to enphasize the smoothness fitting terms toward the middle of the curve.
 
-<img src="https://latex.codecogs.com/svg.latex?\Large&space;t_j" title="t_j" /> is the exposure time
+- <img src="https://latex.codecogs.com/svg.latex?\Large&space;t_j" title="t_j" /> is the exposure time in index <img src="https://latex.codecogs.com/svg.latex?\Large&space;j" title="j" />
 
->>E is the unknown radiance
+- <img src="https://latex.codecogs.com/svg.latex?\Large&space;E_i" title="E_i" /> is the unknown radiance in different pixel <img src="https://latex.codecogs.com/svg.latex?\Large&space;i" title="i" />
 
->>Z: is the observed pixel value
+- <img src="https://latex.codecogs.com/svg.latex?\Large&space;Z_i_j" title="Z_i_j" />: is the observed value in pixel <img src="https://latex.codecogs.com/svg.latex?\Large&space;i" title="i" /> and <img src="https://latex.codecogs.com/svg.latex?\Large&space;j" title="j" /> exposure time
 
->>i is the pixel location index.
-
->>j is the exposure index
-
->>P is the total number of exposures.
+- <img src="https://latex.codecogs.com/svg.latex?\Large&space;i" title="i" /> is the pixel location index, <img src="https://latex.codecogs.com/svg.latex?\Large&space;j" title="j" /> is the exposure index and **P** is the total number of exposures.
 
 >This response curve can be used to determine radiance values in any images acquired by the imaging processing associated with g, not just the images used to recover the response curve.
 
@@ -41,12 +39,14 @@ is a linear weighting function. g will be less smooth and will fit the data more
 >In order to reducing noise in the recovered radiance value, we use all the available exposrues for a particular pixel to computer its radiance based on equation 6 in Debevec. 
 
 ### Reconstruct the Irradiance Map
+And now we can reconstruct the irradiance map by the formula below.
+<img src="https://latex.codecogs.com/svg.latex?ln(E_i)&space;=&space;\frac{\sum_{P}^{j=1}w(Z_i_j)(g(Z_i_j)-ln(\Delta&space;t_j)))&space;}{\sum_{P}^{j=1}w(Z_i_j)}" title="ln(E_i) = \frac{\sum_{P}^{j=1}w(Z_i_j)(g(Z_i_j)-ln(\Delta t_j))) }{\sum_{P}^{j=1}w(Z_i_j)}" />
+After this step, we are able to have the `output.hdr` file.
 
 ### Global Tone Mapping
->Global tone mapping: In this project, we use gamma correction as global tone mapping. The output image is proportional to the input raised to the power of the inverse of gamma and has pixel value range from 0 to 255.
-
-### Color Adjustment
->In order to construct HDR image to be as closer to input image as possible, we adjust the output image average intensity for each channel (B, G, R) to be the same as template image. In general, we use middle image from image stack as template, which is usually most representative of the ground truth. 
+In this part, we implemented a naive global tone mapping algorithm(shown below) to get a image which can match our visual experience.
+<a href="https://www.codecogs.com/eqnedit.php?latex=L_d(x,&space;y)&space;=&space;\frac{L_m(x,y)(1&plus;\frac{L_m(x,y)}{L^2_w(x,y)})}{1&plus;L_m(x,y)}" target="_blank"><img src="https://latex.codecogs.com/svg.latex?L_d(x,&space;y)&space;=&space;\frac{L_m(x,y)(1&plus;\frac{L_m(x,y)}{L^2_w(x,y)})}{1&plus;L_m(x,y)}" title="L_d(x, y) = \frac{L_m(x,y)(1+\frac{L_m(x,y)}{L^2_w(x,y)})}{1+L_m(x,y)}" />
+and now we can have the result.
 
 ## Result 1
 ### Original image
