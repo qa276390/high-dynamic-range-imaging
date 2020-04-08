@@ -78,6 +78,11 @@ and now we can have the result.
 ### HDR image
 <img src="https://github.com/vivianhylee/high-dynamic-range-image/raw/master/example/output2.png" width="500"/>
 
+## Acknowledgements
+- [Digital Visual Effects](https://www.csie.ntu.edu.tw/~cyy/courses/vfx/20spring/overview/)
+- [high-dynamic-range-image](https://github.com/vivianhylee/high-dynamic-range-image)
+- [HDR-Imaging](https://github.com/qhan1028/HDR-Imaging)
+
 
 
 
