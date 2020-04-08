@@ -2,9 +2,9 @@
 This is a python project from recovering the response curve to reconstruct the irradiance map(HDR) in the real scene.
 
 - [Project Description](#project-description)
-- [Algorithm](#algorithm)
-- [Usage](#usage)
-- [Results](#resuls)
+- [Algorithms](#algorithms)
+- [Usages](#usages)
+- [Results](#results)
 
 ## Project Description
 There are several steps(shown below) between the scene radiance and the image we see. Starting from taking few photographs in different exposures, we use  [Paul Debevec's method](http://www.pauldebevec.com/Research/HDR/debevec-siggraph97.pdf) to [recover the response curve](#recovering-the-response-curve) by these photographs. After we got the response curve, we are now able to [reconstuct the irradiance map](#reconstruct-the-irradiance-map) also known as HDR images. Also, we developed a [global tone mapping](#global-tone-mapping) algorithm to see the combination of these photographs.
