@@ -1,4 +1,4 @@
-# high-dynamic-range-imaging
+# High Dynamic Range Imaging
 This is a python project from recovering the response curve to reconstruct the irradiance map(HDR) in the real scene.
 
 - [Project Description](#project-description)
