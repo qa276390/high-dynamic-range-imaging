@@ -15,7 +15,12 @@ There are several steps(shown below) between the scene radiance and the image we
 ## Algorithms 
 ### Recovering the Response Curve
 
-The function of response curve is a general term for the many steps shown above. To recover from pixel values record on image to radiance map we need a function g which is:  <img src="https://latex.codecogs.com/svg.latex?g(Z_i_j)&space;=&space;ln(E_i)&space;&plus;&space;ln(t_j)" title="g(Z_i_j) = ln(E_i) + ln(t_j)" /></a>.
+The function of response curve is a general term for the many steps shown above. To recover from pixel values record on image to radiance map <img src="https://latex.codecogs.com/svg.image?Z_i_j&space;=&space;f(E_i\Delta&space;t_j)" title="https://latex.codecogs.com/svg.image?Z_i_j = f(E_i\Delta t_j)" />, we need a function g which is:  
+
+<img src="https://latex.codecogs.com/svg.latex?g(Z_i_j)&space;=&space;ln(E_i)&space;&plus;&space;ln(t_j)" title="g(Z_i_j) = ln(E_i) + ln(t_j)" /></a>.
+
+
+minimize the following:
 
 <img  align="center" src="https://github.com/qa276390/high-dynamic-range-image/blob/master/example/eq1.png" height="50"/>
 
